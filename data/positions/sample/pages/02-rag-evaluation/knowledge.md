@@ -1,7 +1,5 @@
 # 检索与效果评估
 
-这是 AI Agent Development 的 Sample 页面，仅用于演示知识点学习与答题，并非完整学习路线。请使用 coding agent 读取仓库中的 `AGENTS.md`，按自己的岗位描述（JD）生成适合的知识点和题目。
-
 ## 分块与证据定位 {#chunk-evidence}
 
 检索增强生成（Retrieval-Augmented Generation，RAG）先检索外部资料，再把相关内容作为生成答案的依据。分块（Chunking）决定检索单位：块太小容易丢失前提，块太大容易混入无关信息并占用上下文。应围绕标题、段落或步骤等语义边界切分，再用具体问题检验效果。
