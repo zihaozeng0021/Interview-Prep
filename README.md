@@ -1,5 +1,7 @@
 # 面试准备 · Interview Prep
 
+内置「AI Agent Development（Sample）」演示岗位，用于体验知识点、练习、错题复习和笔记。请让 coding agent 先读取 `AGENTS.md`，再根据你自己的岗位信息生成知识点和题目；Sample 不是完整复习路线。
+
 <details>
 <summary><b>English</b></summary>
 
@@ -20,7 +22,7 @@ A local interview-prep website. It runs on your own computer with no account or 
 
 ### Add a role with an AI agent
 
-`AGENTS.md` tells a coding agent how to turn a job description into knowledge points and questions. Claude Code, Codex, Cursor, GitHub Copilot and similar agents read it automatically.
+`AGENTS.md` guides a coding agent through turning a job description into knowledge points and questions: topic planning, overlap checks, file formats, question quality and validation. Ask your coding agent to read it first, then provide your own job description.
 
 1. Open this folder in your agent and start a new session.
 2. Send the job description, for example:
@@ -34,7 +36,7 @@ A local interview-prep website. It runs on your own computer with no account or 
 3. The agent compares the role with the ones already here, and overlapping roles are not duplicated. If *LLM Security* exists and you add *AI Agent Security*, it extends the existing role instead of creating a new one.
 4. Refresh the browser to see the new pages.
 
-The repository includes only the application and documentation, with no personal roles, job descriptions, knowledge points, questions, answer history or notes. A fresh checkout starts with an empty role list; the app creates its data folders when it starts. Follow `AGENTS.md` to add your own content.
+The bundled **AI Agent Development (Sample)** role is a fictional, compact demo: two pages, six knowledge points and eighteen questions, including single-answer and multiple-answer questions. Use it to try the knowledge pages, quizzes, mistake review and notes. It is not a complete interview syllabus or a real job posting. Follow `AGENTS.md` to generate your own content with a coding agent; the agent removes Sample when adding your first real role.
 
 ### Your data
 
@@ -46,7 +48,7 @@ The repository includes only the application and documentation, with no personal
 
 To back up, copy `data/`. The 重置作答记录 (reset answers) link at the bottom of a role's overview moves old records to `data/records/archive/` instead of deleting them.
 
-The entire `data/` folder is excluded by `.gitignore`, so your content and activity stay local when you commit or push this repository. GitHub does not back up this folder.
+Only `data/positions/sample/` is included in Git. Other role folders, all answer history and all notes are excluded by `.gitignore`, so they stay local when you commit or push. Generate personal content in a new role folder rather than replacing Sample with private information. Back up your local data separately.
 
 ### Keys
 
@@ -88,7 +90,7 @@ python server.py --port 9000  Use a different port
 
 ### 让 AI agent 生成岗位题库
 
-`AGENTS.md` 写明了 agent 把岗位 JD 变成知识点和题目的完整流程。Claude Code、Codex、Cursor、GitHub Copilot 等编码 agent 会自动读取它。
+`AGENTS.md` 可以指导 coding agent 根据岗位信息生成知识点和题目，包含主题规划、重叠判断、文件格式、出题标准和校验流程。让 coding agent 先读取这个文件，再提供你自己的 JD 即可。
 
 1. 用 agent 打开这个文件夹，新开一个会话。
 2. 把岗位信息发给它，例如：
@@ -102,7 +104,7 @@ python server.py --port 9000  Use a different port
 3. agent 会先和已有岗位比对，重叠的不会重复建一份。比如已有 LLM Security，再加 AI Agent Security 时，它会扩展原来的岗位，而不是新建一个。
 4. 完成后刷新浏览器即可看到新页面。
 
-仓库只包含程序和文档，不附带个人岗位、JD、知识点、题目、作答记录或笔记。首次下载后岗位列表为空，启动时程序会自动创建数据目录；按 `AGENTS.md` 添加自己的内容即可。
+内置的 AI Agent Development（Sample）是虚构的精简演示：2 页、6 个知识点、18 道题，包含单选和多选，可体验知识点阅读、练习、错题复习和笔记。它不是完整复习路线，也不代表真实招聘。请用 coding agent 按 `AGENTS.md` 生成自己的岗位内容；加入第一个真实岗位时，agent 会移除 Sample。
 
 ### 数据在哪
 
@@ -114,7 +116,7 @@ python server.py --port 9000  Use a different port
 
 备份就复制整个 `data/`。岗位总览页底部的「重置作答记录」会把旧记录移到 `data/records/archive/`，不会删除。
 
-整个 `data/` 目录已通过 `.gitignore` 排除，提交和推送此仓库时，个人内容与使用记录留在本地。GitHub 不会备份这个目录。
+Git 只收录 `data/positions/sample/`。其他岗位目录、全部作答记录和笔记都通过 `.gitignore` 排除，提交和推送时仍留在本地。个人内容请写到新的岗位目录，不要用私人资料覆盖 Sample；本地数据需单独备份。
 
 ### 快捷键
 

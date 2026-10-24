@@ -35,6 +35,8 @@
 2. 读每个岗位的 `position.json` 和 `jd.md`，弄清它覆盖的范围。
 3. 需要判断某个主题讲到多深时，再打开对应页面的 `knowledge.md`。
 
+`data/positions/sample/` 是公开的 AI Agent Development 演示，不参与真实岗位的重叠判断。只有这个岗位目录会提交到 Git；其他岗位、作答记录和笔记默认忽略。真实内容必须写到其他岗位 id 下，不要把私人 JD、知识点或题目填进 Sample，也不要为了提交私人内容修改忽略规则或强制添加。
+
 如果 `data/positions/sample/` 还在：它只是格式示例。加入第一个真实岗位时删掉它，同时删掉只属于示例的 `data/records/sample.jsonl` 和 `data/notes/sample/`（如果存在）。
 
 ### 3. 把岗位拆成主题清单

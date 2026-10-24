@@ -1,5 +1,8 @@
-# Keep all personal roles, knowledge, questions, answers and notes local.
-/data/
+# Only the public sample role is tracked; all other data stays local.
+/data/*
+!/data/positions/
+/data/positions/*
+!/data/positions/sample/
 
 # Python bytecode
 __pycache__/

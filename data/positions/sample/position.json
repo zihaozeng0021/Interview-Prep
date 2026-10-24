@@ -1,0 +1,6 @@
+{
+  "name": "AI Agent Development（Sample）",
+  "company": "虚构演示岗位",
+  "description": "Sample：体验知识点、练习、错题复习与笔记。请让 coding agent 读取 AGENTS.md，根据自己的岗位信息生成题库。",
+  "order": 99
+}
