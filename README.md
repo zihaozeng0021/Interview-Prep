@@ -1,19 +1,5 @@
 # 面试准备 · Interview Prep
 
-## 界面预览 / Screenshots
-
-### 岗位总览
-
-![岗位总览](docs/images/overview.png)
-
-### 知识点与笔记
-
-![知识点与笔记](docs/images/knowledge-notes.png)
-
-### 错题复习
-
-![错题复习](docs/images/mistake-review.png)
-
 <details>
 <summary><b>English</b></summary>
 
@@ -145,3 +131,17 @@ python server.py --port 9000  换一个端口
 ```
 
 </details>
+
+## 界面预览 / Screenshots
+
+### 岗位总览
+
+![岗位总览](docs/images/overview.png)
+
+### 知识点与笔记
+
+![知识点与笔记](docs/images/knowledge-notes.png)
+
+### 错题复习
+
+![错题复习](docs/images/mistake-review.png)
