@@ -8,7 +8,7 @@
 A local interview-prep website. It runs on your own computer with no account or internet connection, and everything it stores is a plain file in this folder. The interface is in Chinese.
 
 - **Knowledge pages**: each role is split into pages of knowledge points, with tables, code highlighting and formulas.
-- **Quizzes**: every page has multiple-choice questions covering all of its points, and every answer is recorded.
+- **Quizzes**: every page has multiple-choice questions covering all of its points, and every answer is recorded. Choose “不会” (I don't know) to record an incorrect answer and avoid lucky guesses inflating your mastery.
 - **Mistake review** (错题复习): all questions ranked by recent error rate. Recent and repeated mistakes come first, unanswered questions sit in the middle, and questions you always get right go last. The ⓘ button on the review page shows the formula.
 - **Notes** (笔记): a Markdown notes panel on every page, saved as `.md` files you can also open in any editor.
 
@@ -51,6 +51,7 @@ Only `data/positions/sample/` is included in Git. Other role folders, all answer
 | Key | Action |
 | --- | --- |
 | `A`–`H` or `1`–`8` | Choose an option |
+| `0` | Choose “不会” (I don't know) |
 | `Enter` | Submit, then go to the next question |
 | `←` `→` | Previous / next question |
 | `Ctrl+S` | Save notes now |
@@ -74,7 +75,7 @@ python server.py --port 9000  Use a different port
 一个在本机运行的面试复习网站：不需要账号，不需要联网，存下来的所有东西都是这个文件夹里的普通文件。
 
 - **知识点**：每个岗位分成若干页面，每页若干知识点，支持表格、代码高亮和公式。
-- **选择题**：每页的题目覆盖本页全部知识点，每次作答都会记录。
+- **选择题**：每页的题目覆盖本页全部知识点，每次作答都会记录。选择「不会」按答错记录，避免蒙对影响掌握度。
 - **错题复习**：全部题目按近期错误率排序。最近错的、反复错的排在最前，没做过的在中间，一直答对的在最后。复习页的 ⓘ 按钮里有排序公式。
 - **笔记**：每页一个 Markdown 笔记面板，自动保存成 `.md` 文件，也可以用任何编辑器打开。
 
@@ -117,6 +118,7 @@ Git 只收录 `data/positions/sample/`。其他岗位目录、全部作答记录
 | 按键 | 作用 |
 | --- | --- |
 | `A`–`H` 或 `1`–`8` | 选择选项 |
+| `0` | 选择「不会」 |
 | `Enter` | 提交，再按一次进入下一题 |
 | `←` `→` | 上一题 / 下一题 |
 | `Ctrl+S` | 立即保存笔记 |

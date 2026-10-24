@@ -77,10 +77,13 @@ export function stateBar(counts) {
   return bar;
 }
 
-// 最近若干次作答：绿 = 对，红 = 错，最新的在右边
+// 最近若干次作答：绿 = 对，红 = 错（含不会），最新的在右边
 export function historyMarks(attempts, max = 8) {
-  const box = h('span', { class: 'hist', 'aria-hidden': 'true' });
-  for (const a of attempts.slice(-max)) box.append(h('i', { class: a.ok ? 'o' : 'x' }));
+  const box = h('span', { class: 'hist' });
+  for (const a of attempts.slice(-max)) {
+    const label = a.unknown === true ? '不会' : a.ok ? '回答正确' : '回答错误';
+    box.append(h('i', { class: a.ok ? 'o' : 'x', role: 'img', 'aria-label': label, 'data-tip': label }));
+  }
   return box;
 }
 

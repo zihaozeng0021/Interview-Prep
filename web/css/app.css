@@ -1639,6 +1639,11 @@ select {
   gap: 10px;
 }
 
+.opt.opt-unknown {
+  margin-top: 4px;
+  border-style: dashed;
+}
+
 .opt {
   display: grid;
   grid-template-columns: 28px minmax(0, 1fr) 18px;

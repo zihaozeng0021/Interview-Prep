@@ -111,8 +111,10 @@ export function answeredCount(pos, questions = pos.questions) {
   return n;
 }
 
-export async function record(pos, q, { ok, pick, src, dur }) {
-  const r = { t: Date.now(), q: q.gid, ok, pick, src, dur: Math.max(0, Math.round(dur || 0)) };
+export async function record(pos, q, { ok, pick, src, dur, unknown = false }) {
+  const isUnknown = unknown === true;
+  const r = { t: Date.now(), q: q.gid, ok: isUnknown ? false : ok, pick: isUnknown ? '' : pick, src, dur: Math.max(0, Math.round(dur || 0)) };
+  if (isUnknown) r.unknown = true;
   addAttempt(pos, r);
   emit('records', pos);
   try {

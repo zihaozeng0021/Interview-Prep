@@ -1,5 +1,5 @@
 // 答题组件：页面练习与错题复习共用
-// 键盘：A–H 或 1–8 选择选项，Enter 提交 / 下一题，← → 切换题目
+// 键盘：A–H 或 1–8 选择选项，0 选择不会，Enter 提交 / 下一题，← → 切换题目
 
 import { h, icon, kbd, prefs, plainText, historyMarks } from '../ui.js';
 import { md, mdInline } from '../md.js';
@@ -25,7 +25,7 @@ export function newSession(key, items, { mode = 'page', base, single = false } =
     items,
     base: base || items,
     idx: 0,
-    answers: new Map(), // gid -> { picked:Set<原始选项下标>, submitted, ok, pick }
+    answers: new Map(), // gid -> { picked:Set<原始选项下标>, unknown, submitted, ok, pick }
     perms: new Map(), // gid -> 显示顺序（原始下标数组）
     finished: false,
   };
@@ -132,6 +132,26 @@ export function mountQuiz(container, pos, initial, opts = {}) {
     );
   }
 
+  function unknownButton(q, a) {
+    const picked = !!a?.unknown;
+    const state = a?.submitted ? (picked ? 'is-wrong' : 'is-dim') : picked ? 'is-picked' : '';
+    return h(
+      'button',
+      {
+        class: `opt opt-unknown ${state}`.trim(),
+        type: 'button',
+        role: q.type === 'multi' ? 'checkbox' : 'radio',
+        'aria-checked': String(picked),
+        'aria-disabled': a?.submitted ? 'true' : null,
+        'data-tip': '按答错记录，提交后查看答案与解析',
+        onclick: toggleUnknown,
+      },
+      h('span', { class: 'key num' }, '0'),
+      h('span', { class: 'opt-text' }, '不会'),
+      h('span', { class: 'opt-mark' }, a?.submitted && picked ? icon('x') : null),
+    );
+  }
+
   function question() {
     const q = cur();
     const a = ansOf(q);
@@ -175,6 +195,7 @@ export function mountQuiz(container, pos, initial, opts = {}) {
         'div',
         { class: `opts ${q.type}`, role: multi ? 'group' : 'radiogroup', 'aria-label': '选项' },
         perm.map((oi, di) => optionButton(q, a, oi, di)),
+        unknownButton(q, a),
       ),
     );
 
@@ -184,7 +205,7 @@ export function mountQuiz(container, pos, initial, opts = {}) {
       h('button', { class: 'btn ghost', type: 'button', disabled: session.idx === 0, onclick: prev }, icon('left'), '上一题'),
       submitted
         ? h('button', { class: 'btn primary', type: 'button', onclick: next }, isLast() ? '完成' : '下一题', kbd('Enter'))
-        : h('button', { class: 'btn primary', type: 'button', disabled: !a?.picked.size, onclick: submit }, '提交', kbd('Enter')),
+        : h('button', { class: 'btn primary', type: 'button', disabled: !a?.picked.size && !a?.unknown, onclick: submit }, '提交', kbd('Enter')),
     );
 
     return h('div', { class: 'quiz-q' }, top, card, submitted ? feedback(q, a) : null, actions);
@@ -199,7 +220,7 @@ export function mountQuiz(container, pos, initial, opts = {}) {
       h(
         'header',
         { class: 'fb-head' },
-        h('span', { class: 'fb-result' }, icon(a.ok ? 'check' : 'x'), a.ok ? '回答正确' : '回答错误'),
+        h('span', { class: 'fb-result' }, icon(a.ok ? 'check' : 'x'), a.unknown ? '不会，已按答错记录' : a.ok ? '回答正确' : '回答错误'),
         a.ok ? null : h('span', { class: 'fb-answer' }, '正确答案', h('b', { class: 'num' }, disp(q, q.answer))),
         h(
           'span',
@@ -261,7 +282,7 @@ export function mountQuiz(container, pos, initial, opts = {}) {
         ? h(
             'div',
             { class: 'sum-wrong' },
-            h('h3', null, '答错的题'),
+            h('h3', null, '答错或不会的题'),
             h(
               'ol',
               null,
@@ -276,8 +297,9 @@ export function mountQuiz(container, pos, initial, opts = {}) {
                     h(
                       'span',
                       { class: 'pick' },
-                      '选了',
-                      h('b', { class: 'num tone-weak' }, disp(q, ansOf(q).pick)),
+                      ansOf(q).unknown
+                        ? h('b', { class: 'tone-weak' }, '不会')
+                        : ['选了', h('b', { class: 'num tone-weak' }, disp(q, ansOf(q).pick))],
                       '答案',
                       h('b', { class: 'num tone-good' }, disp(q, q.answer)),
                     ),
@@ -290,7 +312,7 @@ export function mountQuiz(container, pos, initial, opts = {}) {
       h(
         'div',
         { class: 'sum-actions' },
-        wrong.length ? h('button', { class: 'btn primary', type: 'button', onclick: retryWrong }, `重练答错的 ${wrong.length} 题`) : null,
+        wrong.length ? h('button', { class: 'btn primary', type: 'button', onclick: retryWrong }, `重练这 ${wrong.length} 题`) : null,
         skipped ? h('button', { class: `btn${wrong.length ? '' : ' primary'}`, type: 'button', onclick: () => go(firstSkipped) }, '继续作答') : null,
         h('button', { class: 'btn ghost', type: 'button', onclick: restart }, '全部重做'),
         opts.exit
@@ -311,6 +333,7 @@ export function mountQuiz(container, pos, initial, opts = {}) {
       a = { picked: new Set(), submitted: false };
       session.answers.set(q.gid, a);
     }
+    a.unknown = false;
     if (q.type === 'multi') {
       if (a.picked.has(oi)) a.picked.delete(oi);
       else a.picked.add(oi);
@@ -321,14 +344,27 @@ export function mountQuiz(container, pos, initial, opts = {}) {
     render();
   }
 
+  function toggleUnknown() {
+    const q = cur();
+    let a = ansOf(q);
+    if (a?.submitted) return;
+    if (!a) {
+      a = { picked: new Set(), submitted: false };
+      session.answers.set(q.gid, a);
+    }
+    a.unknown = q.type === 'multi' ? !a.unknown : true;
+    a.picked.clear();
+    render();
+  }
+
   function submit() {
     const q = cur();
     const a = ansOf(q);
-    if (!a || a.submitted || !a.picked.size) return;
-    a.pick = [...a.picked].map((i) => LETTERS[i]).sort().join('');
-    a.ok = a.pick === q.answer;
+    if (!a || a.submitted || (!a.picked.size && !a.unknown)) return;
+    a.pick = a.unknown ? '' : [...a.picked].map((i) => LETTERS[i]).sort().join('');
+    a.ok = !a.unknown && a.pick === q.answer;
     a.submitted = true;
-    store.record(pos, q, { ok: a.ok, pick: a.pick, src: session.mode, dur: performance.now() - shownAt });
+    store.record(pos, q, { ok: a.ok, pick: a.pick, unknown: !!a.unknown, src: session.mode, dur: performance.now() - shownAt });
     fresh = true;
     render();
   }
@@ -406,6 +442,11 @@ export function mountQuiz(container, pos, initial, opts = {}) {
     if (k === 'ArrowLeft' && session.idx > 0) {
       e.preventDefault();
       go(session.idx - 1);
+      return;
+    }
+    if (k === '0') {
+      e.preventDefault();
+      toggleUnknown();
       return;
     }
     let di = -1;

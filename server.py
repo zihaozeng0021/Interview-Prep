@@ -413,12 +413,16 @@ def append_records(pid: str, items: list) -> int:
         if not isinstance(r, dict) or not isinstance(r.get("q"), str) or not isinstance(r.get("ok"), bool):
             continue
         t = r.get("t")
+        unknown = r.get("unknown") is True
         rec = {
             "t": int(t) if isinstance(t, (int, float)) and 0 < t <= now + 86_400_000 else now,
             "q": r["q"][:200],
-            "ok": r["ok"],
+            "ok": False if unknown else r["ok"],
         }
-        if isinstance(r.get("pick"), str):
+        if unknown:
+            rec["unknown"] = True
+            rec["pick"] = ""
+        elif isinstance(r.get("pick"), str):
             rec["pick"] = r["pick"][:16]
         if isinstance(r.get("src"), str):
             rec["src"] = r["src"][:16]
