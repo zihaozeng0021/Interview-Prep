@@ -1,0 +1,6 @@
+# Keep all personal roles, knowledge, questions, answers and notes local.
+/data/
+
+# Python bytecode
+__pycache__/
+*.pyc
