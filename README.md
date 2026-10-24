@@ -1,7 +1,5 @@
 # 面试准备 · Interview Prep
 
-内置「AI Agent Development（Sample）」演示岗位，用于体验知识点、练习、错题复习和笔记。请让 coding agent 先读取 `AGENTS.md`，再根据你自己的岗位信息生成知识点和题目；Sample 不是完整复习路线。
-
 <details>
 <summary><b>English</b></summary>
 
@@ -35,8 +33,6 @@ A local interview-prep website. It runs on your own computer with no account or 
    You can also mention the level you're interviewing for, the areas to focus on, or that the interview is in English.
 3. The agent compares the role with the ones already here, and overlapping roles are not duplicated. If *LLM Security* exists and you add *AI Agent Security*, it extends the existing role instead of creating a new one.
 4. Refresh the browser to see the new pages.
-
-The bundled **AI Agent Development (Sample)** role is a fictional, compact demo: two pages, six knowledge points and eighteen questions, including single-answer and multiple-answer questions. Use it to try the knowledge pages, quizzes, mistake review and notes. It is not a complete interview syllabus or a real job posting. Follow `AGENTS.md` to generate your own content with a coding agent; the agent removes Sample when adding your first real role.
 
 ### Your data
 
@@ -103,8 +99,6 @@ python server.py --port 9000  Use a different port
    还可以补充面试级别、想侧重的方向，或者面试用英文。
 3. agent 会先和已有岗位比对，重叠的不会重复建一份。比如已有 LLM Security，再加 AI Agent Security 时，它会扩展原来的岗位，而不是新建一个。
 4. 完成后刷新浏览器即可看到新页面。
-
-内置的 AI Agent Development（Sample）是虚构的精简演示：2 页、6 个知识点、18 道题，包含单选和多选，可体验知识点阅读、练习、错题复习和笔记。它不是完整复习路线，也不代表真实招聘。请用 coding agent 按 `AGENTS.md` 生成自己的岗位内容；加入第一个真实岗位时，agent 会移除 Sample。
 
 ### 数据在哪
 
